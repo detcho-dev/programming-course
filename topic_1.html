@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro to ICDL</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400&display=swap');
+
+        * {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        color: white;
+        background-color: rgb(0, 1, 10);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: rgb(0, 1, 10);
+            color: white;
+        }
+        .student-name {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .progress-bar {
+            width: 80%;
+            height: 30px;
+            background-color: #ddd;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg,rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);            text-align: center;
+            color: white;
+            line-height: 30px;
+            border-radius: 5px;
+        }
+        .history {
+            width: 80%;
+            margin-top: 30px;
+        }
+        .history h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: #495057;
+        }
+        .history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .history li {
+            padding: 12px;
+            margin: 8px 0;
+            background-color: #ffffff;
+            color: black;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, height 0.3s ease;
+        }
+        .history li:hover {
+            background-color: #f1f1f1;
+            transform: translateY(-5px);
+            height: 120px; /* تكبير العنصر عند الهوفر */
+            display: block;
+        }
+        .history li .expand {
+            display: none;
+            font-size: 14px;
+            color: #6c757d;
+            background-color: transparent;
+            margin-top: 10px;
+            text-align: left; /* تغيير المحاذاة إلى الشمال */
+        }
+
+        .history li:hover .expand {
+            display: block; /* عرض البيانات عند الهوفر */
+        }
+        .history li .status {
+            font-weight: bold;
+            color: #28a745;
+            background-color: transparent;
+            text-align: right;
+        }
+        .history li .status.failed {
+            color: #dc3545;
+        }
+
+        b{
+            background-color: transparent;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<h5>Topic 1</h5>    
+
+<div class="student-name" id="student-name">Intro to ICDL</div>
+
+<div class="progress-bar">
+    <div class="progress" id="progress" style="width: 0%;">0%</div>
+</div>
+
+<h3>Topic History</h3>
+<div class="history">
+    <ul id="history-list">
+        <!-- يتم إضافة العناصر يدويًا هنا في HTML -->
+        <!--<li>
+            
+            <b clsss="title">Intro to ICDL</b>
+            <span class="status">Completed</span>
+            <div class="expand"><br>Completed at : [date]<br>Lesson Details : </div>
+        </li>-->
+        
+    </ul>
+</div>
+
+<script>
+    let totalLessons = 4; // عدد الدروس الذي تضعه يدويًا
+    let totalTests = 1;
+    let completedLessons = 0;
+    let completedTests = 0;
+
+    // حساب التقدم بناءً على العناصر التي تم إضافتها يدويًا
+    function updateProgress() {
+        // استعراض العناصر في الـul
+        let items = document.querySelectorAll('#history-list li');
+        items.forEach(item => {
+            let status = item.querySelector('.status').textContent.trim();
+            if (status === 'Completed') {
+                if (item.querySelector('.status').classList.contains('failed')) {
+                    completedTests++;
+                } else {
+                    completedLessons++;
+                }
+            }
+        });
+
+        let totalCompleted = completedLessons + completedTests;
+        let totalTasks = totalLessons + totalTests;
+        let progress = (totalCompleted / totalTasks) * 100;
+        document.getElementById('progress').style.width = progress + '%';
+        document.getElementById('progress').innerText = Math.round(progress) + '%';
+    }
+
+    // تحديث التقدم عند تحميل الصفحة
+    updateProgress();
+</script>
+
+</body>
+</html>
