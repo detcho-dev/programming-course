@@ -123,19 +123,22 @@
             <span class="status">Completed</span>
             <div class="expand"><br>Completed at : [date]<br>Lesson Details : </div>
         </li>-->
+    <li>
+        <b class="title">Week 1: Computer Basics</b>
+        <span class="status">Completed</span>
+        <div class="expand"><br>Completed at: April 14<br>Lesson Details: Mouse, Keyboard, and Files</div>
+    </li>
         
     </ul>
 </div>
 
 <script>
-    let totalLessons = 4; // عدد الدروس الذي تضعه يدويًا
+    let totalLessons = 4;
     let totalTests = 1;
     let completedLessons = 0;
     let completedTests = 0;
 
-    // حساب التقدم بناءً على العناصر التي تم إضافتها يدويًا
-    function updateProgress() {
-        // استعراض العناصر في الـul
+    function updateProgressAnimated() {
         let items = document.querySelectorAll('#history-list li');
         items.forEach(item => {
             let status = item.querySelector('.status').textContent.trim();
@@ -150,13 +153,40 @@
 
         let totalCompleted = completedLessons + completedTests;
         let totalTasks = totalLessons + totalTests;
-        let progress = (totalCompleted / totalTasks) * 100;
-        document.getElementById('progress').style.width = progress + '%';
-        document.getElementById('progress').innerText = Math.round(progress) + '%';
+        let finalProgress = (totalCompleted / totalTasks) * 100;
+
+        // Animation
+        let progressBar = document.getElementById('progress');
+        let currentProgress = 0;
+        let interval = setInterval(() => {
+            if (currentProgress >= finalProgress) {
+                clearInterval(interval);
+            } else {
+                currentProgress++;
+                progressBar.style.width = currentProgress + '%';
+                progressBar.innerText = currentProgress + '%';
+            }
+        }, 20);
     }
 
-    // تحديث التقدم عند تحميل الصفحة
-    updateProgress();
+    function revealTopics() {
+        const items = document.querySelectorAll('#history-list li');
+        items.forEach((item, index) => {
+            item.style.opacity = 0;
+            item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            item.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                item.style.opacity = 1;
+                item.style.transform = 'translateY(0)';
+            }, index * 300);
+        });
+    }
+
+    window.onload = function () {
+        updateProgressAnimated();
+        revealTopics();
+    };
 </script>
 
 </body>
